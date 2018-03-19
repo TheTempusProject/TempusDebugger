@@ -1,5 +1,5 @@
 {
-    "name": "thetempusproject/tempusdebugger",
+    "name": "TheTempusProject/TempusDebugger",
     "description": "Framework for sending php messages to chrome for in-browser debugging.",
     "type": "library",
     "homepage": "https://github.com/TheTempusProject/TempusDebugger",
