@@ -1,4 +1,17 @@
 <?php
+/**
+ * TempusTools.php
+ *
+ * description
+ *
+ * @version 1.1
+ *
+ * @author  Joey Kimsey <JoeyKimsey@thetempusproject.com>
+ *
+ * @link    https://.com
+ *
+ * @license https://opensource.org/licenses/MIT [MIT LICENSE]
+ */
 
 namespace TempusDebugger;
 
@@ -16,7 +29,7 @@ if (!class_exists('TempusDebugger', false)) {
  *
  * @throws Exception
  */
-function fb()
+function tt()
 {
     $instance = TempusDebugger::getInstance(true);
   
@@ -97,7 +110,6 @@ class TempusTools
     /**
      * Log object to console
      *
-     * @see http://www.firephp.org/Wiki/Reference/Fb
      * @param mixed $object
      * @return true
      * @throws Exception
@@ -105,7 +117,7 @@ class TempusTools
     public static function send()
     {
         $args = func_get_args();
-        return call_user_func_array(array(TempusDebugger::getInstance(true), 'fb'), $args);
+        return call_user_func_array(array(TempusDebugger::getInstance(true), 'tt'), $args);
     }
 
     /**
