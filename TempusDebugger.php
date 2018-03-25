@@ -1,14 +1,17 @@
 <?php
 /**
- * TempusTools.php
+ * TempusDebugger.php
  *
- * description
+ * This manufactures our debugger tempusheaders and authenticates
+ * our debugger with the TempusTools chrome extension. This enables
+ * you to view ordered debug messages in the chrom developer tools.
  *
  * @version 1.1
  *
+ * @author  Christoph Dorn <christoph@christophdorn.com>
  * @author  Joey Kimsey <JoeyKimsey@thetempusproject.com>
  *
- * @link    https://.com
+ * @link    https://www.thetempusproject.com/TempusDebugger
  *
  * @license https://opensource.org/licenses/MIT [MIT LICENSE]
  */
@@ -27,17 +30,7 @@ if (!defined('E_DEPRECATED')) {
 if (!defined('E_USER_DEPRECATED')) {
     define('E_USER_DEPRECATED', 16384);
 }
- 
-/**
- * Sends the given data to the TempusTools Chrome Extension.
- * The data can be displayed in devtools.
- *
- *
- * @copyright       Copyright (C) 2007+ Christoph Dorn
- * @author          Christoph Dorn <christoph@christophdorn.com>
- * @license         [MIT License](http://www.opensource.org/licenses/mit-license.php)
- * @package         TempusDebugger
- */
+
 class TempusDebugger
 {
 
