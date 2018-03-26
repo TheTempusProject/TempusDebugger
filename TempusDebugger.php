@@ -168,7 +168,7 @@ class TempusDebugger
      *
      * @var string
      */
-    protected $secureHash = 'customhash';
+    protected $secureHash = '';
     
     /**
      * Options for the library
@@ -655,11 +655,24 @@ class TempusDebugger
      */
     public function detectHash()
     {
+        if ($this->secureHash == '') {
+            return false;
+        }
         $tempusToolsHash = $this->getRequestHeader('X-TempusDebugger-securityHash');
         if ($tempusToolsHash == $this->secureHash) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Check if TempusDebugger is installed on client
+     *
+     * @return boolean
+     */
+    public function setHash($hash)
+    {
+        $this->secureHash = $hash;
     }
 
     /**
