@@ -658,7 +658,7 @@ class TempusDebugger
         if ($this->secureHash == '') {
             return false;
         }
-        $tempusToolsHash = $this->getRequestHeader('X-TempusDebugger-securityHash');
+        $tempusToolsHash = $this->getRequestHeader('x-tempusdebugger-securityhash');
         if ($tempusToolsHash == $this->secureHash) {
             return true;
         }
@@ -686,8 +686,8 @@ class TempusDebugger
         if (@preg_match_all('/\sTempusTools\/Debugger\/([\.\d]*)\s?/si', $this->getUserAgent(), $m) &&
            version_compare($m[1][0], '1.1', '>=')) {
             return true;
-            // Check if TempusDebugger is installed on client via X-TempusDebugger-Version header
-        } elseif (@preg_match_all('/^([\.\d]*)$/si', $this->getRequestHeader('X-TempusDebugger-Version'), $m) &&
+            // Check if TempusDebugger is installed on client via x-tempusdebugger-Version header
+        } elseif (@preg_match_all('/^([\.\d]*)$/si', $this->getRequestHeader('x-tempusdebugger-version'), $m) &&
            version_compare($m[1][0], '1.1', '>=')) {
             return true;
         }
@@ -984,7 +984,7 @@ class TempusDebugger
             unset($meta['line']);
         }
 
-        $this->setHeader('X-td-Protocol-1', 'http://www.thetempusproject.com/tempusTools/1.1');
+        $this->setHeader('x-td-protocol-1', 'http://www.thetempusproject.com/tempusTools/1.1');
         $structureIndex = 1;
 
         if ($type == self::DUMP) {
@@ -1010,14 +1010,14 @@ class TempusDebugger
                 if (count($parts) > 2) {
                     // Message needs to be split into multiple parts
                     $this->setHeader(
-                        'X-td-1-' . $structureIndex . '-' . '1-' . $this->messageIndex,
+                        'x-td-1-' . $structureIndex . '-' . '1-' . $this->messageIndex,
                         (($i == 0) ? strlen($msg) : '')
                                      . '|' . $part . '|'
                                      . (($i < count($parts) - 2) ? '\\' : '')
                     );
                 } else {
                     $this->setHeader(
-                        'X-td-1-' . $structureIndex . '-' . '1-' . $this->messageIndex,
+                        'x-td-1-' . $structureIndex . '-' . '1-' . $this->messageIndex,
                         strlen($part) . '|' . $part . '|'
                     );
                 }
@@ -1027,7 +1027,7 @@ class TempusDebugger
                 }
             }
         }
-        $this->setHeader('X-td-1-Index', $this->messageIndex - 1);
+        $this->setHeader('x-td-1-Index', $this->messageIndex - 1);
         return true;
     }
   
