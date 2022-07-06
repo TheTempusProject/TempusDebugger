@@ -5,11 +5,8 @@
  * description
  *
  * @version 1.1
- *
  * @author  Joey Kimsey <JoeyKimsey@thetempusproject.com>
- *
  * @link    https://.com
- *
  * @license https://opensource.org/licenses/MIT [MIT LICENSE]
  */
 

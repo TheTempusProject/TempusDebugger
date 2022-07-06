@@ -6,211 +6,47 @@
  * our debugger with the TempusTools chrome extension. This enables
  * you to view ordered debug messages in the chrom developer tools.
  *
- * @version 1.1
- *
+ * @version 3.0
+ * @author  Joey Kimsey <Joey@thetempusproject.com>
  * @author  Christoph Dorn <christoph@christophdorn.com>
- * @author  Joey Kimsey <JoeyKimsey@thetempusproject.com>
- *
- * @link    https://www.thetempusproject.com/TempusDebugger
- *
+ * @link    https://TheTempusProject.com/TempusDebugger
  * @license https://opensource.org/licenses/MIT [MIT LICENSE]
  */
-
 namespace TempusDebugger;
 
 use \ReflectionClass;
 
-if (!defined('E_STRICT')) {
-    define('E_STRICT', 2048);
-}
-if (!defined('E_RECOVERABLE_ERROR')) {
-    define('E_RECOVERABLE_ERROR', 4096);
-}
-if (!defined('E_DEPRECATED')) {
-    define('E_DEPRECATED', 8192);
-}
-if (!defined('E_USER_DEPRECATED')) {
-    define('E_USER_DEPRECATED', 16384);
-}
-
 class TempusDebugger
 {
-
-    /**
-     * TempusDebugger version
-     *
-     * @var string
-     */
     const VERSION = '1.1';
-
-    /**
-     * Firebug LOG level
-     *
-     * Logs a message to the console.
-     *
-     * @var string
-     */
     const LOG = 'LOG';
-  
-    /**
-     * Firebug INFO level
-     *
-     * Logs a message to the console and displays an info icon before the message.
-     *
-     * @var string
-     */
     const INFO = 'INFO';
-    
-    /**
-     * Firebug WARN level
-     *
-     * Logs a message to the console, displays an warning icon before the message and colors the line turquoise.
-     *
-     * @var string
-     */
     const WARN = 'WARN';
-    
-    /**
-     * Firebug ERROR level
-     *
-     * Logs a message to the console, displays an error icon before the message and colors the line yellow. Also increments the error count.
-     *
-     * @var string
-     */
     const ERROR = 'ERROR';
-    
-    /**
-     * Dumps a variable to the console
-     *
-     * @var string
-     */
     const DUMP = 'DUMP';
-    
-    /**
-     * Displays a stack trace in the console
-     *
-     * @var string
-     */
     const TRACE = 'TRACE';
-    
-    /**
-     * Displays an exception in the console
-     *
-     * Increments the error count.
-     *
-     * @var string
-     */
     const EXCEPTION = 'EXCEPTION';
-    
-    /**
-     * Displays an table in the console
-     *
-     * @var string
-     */
     const TABLE = 'TABLE';
-    
-    /**
-     * Starts a group in the console
-     *
-     * @var string
-     */
     const GROUP_START = 'GROUP_START';
-    
-    /**
-     * Ends a group in the console
-     *
-     * @var string
-     */
     const GROUP_END = 'GROUP_END';
     
-    /**
-     * Singleton instance of TempusDebugger
-     *
-     * @var TempusDebugger
-     */
     protected static $instance = null;
-    
-    /**
-     * Flag whether we are logging from within the exception handler
-     *
-     * @var boolean
-     */
     protected $inExceptionHandler = false;
-    
-    /**
-     * Flag whether to throw PHP errors that have been converted to ErrorExceptions
-     *
-     * @var boolean
-     */
     protected $throwErrorExceptions = true;
-    
-    /**
-     * Flag whether to convert PHP assertion errors to Exceptions
-     *
-     * @var boolean
-     */
     protected $convertAssertionErrorsToExceptions = true;
-    
-    /**
-     * Flag whether to throw PHP assertion errors that have been converted to Exceptions
-     *
-     * @var boolean
-     */
     protected $throwAssertionExceptions = false;
-
-    /**
-     * protocol message index
-     *
-     * @var integer
-     */
     protected $messageIndex = 1;
-
-    /**
-     * The Secure Hash to check
-     *
-     * @var string
-     */
     protected $secureHash = '';
-    
-    /**
-     * Options for the library
-     *
-     * @var array
-     */
     protected $options = array('maxDepth' => 10,
                                'maxObjectDepth' => 5,
                                'maxArrayDepth' => 5,
                                'useNativeJsonEncode' => true,
                                'includeLineNumbers' => true);
-
-    /**
-     * Filters used to exclude object members when encoding
-     *
-     * @var array
-     */
     protected $objectFilters = array(
         'TempusDebugger' => array('objectStack', 'instance', 'json_objectStack')
     );
-
-    /**
-     * A stack of objects used to detect recursion during object encoding
-     *
-     * @var object
-     */
     protected $objectStack = array();
-
-    /**
-     * Flag to enable/disable logging
-     *
-     * @var boolean
-     */
     protected $enabled = true;
-
-    /**
-     * The insight console to log to if applicable
-     *
-     * @var object
-     */
     protected $logToInsightConsole = null;
 
     /**
@@ -1292,7 +1128,7 @@ class TempusDebugger
             // but exist in the object
             foreach ($members as $rawName => $value) {
                 $name = $rawName;
-                if ($name{0} == "\0") {
+                if ($name[0] == "\0") {
                     $parts = explode("\0", $name);
                     $name = $parts[2];
                 }
@@ -1337,6 +1173,7 @@ class TempusDebugger
         }
         return $return;
     }
+
     /**
      * Returns true if $string is valid UTF-8 and false otherwise.
      *
